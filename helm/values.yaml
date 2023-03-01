@@ -13,7 +13,7 @@ hostNetwork:
   enabled: true
 
 image:
-  repository: nginx
+  repository: amitayregistry.azurecr.io
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "v1"
