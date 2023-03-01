@@ -1,0 +1,38 @@
+# Variable 'azurl' was defined in the Variables tab
+name: Build and Publish WebServer container
+jobs:
+- job: Job_1
+  displayName: Build docker
+  pool:
+    vmImage: ubuntu-20.04
+  steps:
+  - checkout: self
+    clean: true
+    fetchTags: true
+  - task: Docker@0
+    displayName: Build an image
+    inputs:
+      azureSubscriptionEndpoint: 505f640d-244f-4277-a76f-d87f02a796f5
+      azureContainerRegistry: '{"loginServer":"amitayregistry.azurecr.io", "id" : "/subscriptions/f2549e9a-de48-459d-9e95-7e1e5bfcfaa0/resourceGroups/Amitay_RG/providers/Microsoft.ContainerRegistry/registries/AmitayRegistry"}'
+      imageName: $(azurl)/web_server:$(Build.BuildId)
+  - task: Docker@0
+    displayName: Push an image
+    inputs:
+      azureSubscriptionEndpoint: 505f640d-244f-4277-a76f-d87f02a796f5
+      azureContainerRegistry: '{"loginServer":"amitayregistry.azurecr.io", "id" : "/subscriptions/f2549e9a-de48-459d-9e95-7e1e5bfcfaa0/resourceGroups/Amitay_RG/providers/Microsoft.ContainerRegistry/registries/AmitayRegistry"}'
+      action: Push an image
+      imageName: $(azurl)/web_server:$(Build.BuildId)
+  - task: HelmInstaller@0
+    displayName: Install Helm 2.14.1
+  - task: HelmDeploy@0
+    displayName: helm package
+    inputs:
+      command: package
+      chartPath: helm
+      version: $(Build.BuildId)
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Pipeline Artifact
+    inputs:
+      path: $(Build.ArtifactStagingDirectory)
+      artifactName: web_server
+...
