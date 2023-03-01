@@ -4,7 +4,7 @@
 
 application:
   author: amitaysh
-  name: amitaysh_api
+  name: webserver
   type: api
 
 replicaCount: 1
