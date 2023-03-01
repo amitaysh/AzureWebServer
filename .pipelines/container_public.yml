@@ -4,7 +4,7 @@ jobs:
 - job: Job_1
   displayName: Build docker
   pool:
-    vmImage: windows-latest
+    name: Default
   steps:
   - checkout: git://Amitay/Amitay
     clean: true
