@@ -4,7 +4,7 @@ jobs:
 - job: Job_1
   displayName: Build docker
   pool:
-    vmImage: ubuntu-20.04
+    vmImage: windows-latest
   steps:
   - checkout: git://Amitay/Amitay
     clean: true
