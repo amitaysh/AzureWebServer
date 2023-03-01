@@ -6,7 +6,7 @@ jobs:
   pool:
     name: Default
   steps:
-  - checkout: git://Amitay/Amitay
+  - checkout: self
     clean: true
     fetchTags: true
   - task: Docker@0
