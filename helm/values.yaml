@@ -9,6 +9,9 @@ application:
 
 replicaCount: 1
 
+hostNetwork:
+  enabled: true
+
 image:
   repository: nginx
   pullPolicy: Always
