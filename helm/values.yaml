@@ -10,7 +10,7 @@ application:
 replicaCount: 1
 
 hostNetwork:
-  enabled: true
+  enabled: false
 
 image:
   repository: amitayregistry.azurecr.io
