@@ -4,7 +4,7 @@ jobs:
 - job: Job_1
   displayName: Build docker
   pool:
-    name: Default
+    name: self-hosted
   steps:
   - checkout: self
     clean: true
