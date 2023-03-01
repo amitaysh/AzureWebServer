@@ -6,7 +6,7 @@ jobs:
   pool:
     vmImage: ubuntu-20.04
   steps:
-  - checkout: git://amitayshahar/Amitay
+  - checkout: git://Amitay/Amitay
     clean: true
     fetchTags: true
   - task: Docker@0
