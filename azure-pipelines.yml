@@ -7,7 +7,7 @@
 #- main
 
 pool:
-name: self-hosted
+  name: self-hosted
 
 steps:
 - task: AzureResourceManagerTemplateDeployment@3
