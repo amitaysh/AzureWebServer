@@ -1,0 +1,207 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "managedClusters_armamitayakscluster_name": {
+            "defaultValue": "armamitayakscluster",
+            "type": "String"
+        },
+        "workspaces_DefaultWorkspace_f2549e9a_de48_459d_9e95_7e1e5bfcfaa0_EUS_externalid": {
+            "defaultValue": "/subscriptions/f2549e9a-de48-459d-9e95-7e1e5bfcfaa0/resourceGroups/DefaultResourceGroup-EUS/providers/Microsoft.OperationalInsights/workspaces/DefaultWorkspace-f2549e9a-de48-459d-9e95-7e1e5bfcfaa0-EUS",
+            "type": "String"
+        },
+        "publicIPAddresses_9e276aa8_d391_4f6d_b8fa_a8fcf4ab0b74_externalid": {
+            "defaultValue": "/subscriptions/f2549e9a-de48-459d-9e95-7e1e5bfcfaa0/resourceGroups/MC_armamitay_RG_armamitayakscluster_eastus/providers/Microsoft.Network/publicIPAddresses/9e276aa8-d391-4f6d-b8fa-a8fcf4ab0b74",
+            "type": "String"
+        },
+        "userAssignedIdentities_armamitayakscluster_agentpool_externalid": {
+            "defaultValue": "/subscriptions/f2549e9a-de48-459d-9e95-7e1e5bfcfaa0/resourceGroups/MC_armamitay_RG_armamitayakscluster_eastus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/armamitayakscluster-agentpool",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.ContainerService/managedClusters",
+            "apiVersion": "2023-01-02-preview",
+            "name": "[parameters('managedClusters_armamitayakscluster_name')]",
+            "location": "eastus",
+            "sku": {
+                "name": "Basic",
+                "tier": "Paid"
+            },
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "kubernetesVersion": "1.24.9",
+                "dnsPrefix": "[concat(parameters('managedClusters_armamitayakscluster_name'), '-dns')]",
+                "agentPoolProfiles": [
+                    {
+                        "name": "agentpool",
+                        "count": 1,
+                        "vmSize": "Standard_DS2_v2",
+                        "osDiskSizeGB": 128,
+                        "osDiskType": "Managed",
+                        "kubeletDiskType": "OS",
+                        "maxPods": 110,
+                        "type": "VirtualMachineScaleSets",
+                        "availabilityZones": [
+                            "1",
+                            "2",
+                            "3"
+                        ],
+                        "maxCount": 2,
+                        "minCount": 1,
+                        "enableAutoScaling": true,
+                        "powerState": {
+                            "code": "Running"
+                        },
+                        "orchestratorVersion": "1.24.9",
+                        "enableNodePublicIP": false,
+                        "mode": "System",
+                        "osType": "Linux",
+                        "osSKU": "Ubuntu",
+                        "enableFIPS": false
+                    }
+                ],
+                "servicePrincipalProfile": {
+                    "clientId": "msi"
+                },
+                "addonProfiles": {
+                    "azureKeyvaultSecretsProvider": {
+                        "enabled": false
+                    },
+                    "azurepolicy": {
+                        "enabled": false
+                    },
+                    "httpApplicationRouting": {
+                        "enabled": false
+                    },
+                    "omsAgent": {
+                        "enabled": true,
+                        "config": {
+                            "logAnalyticsWorkspaceResourceID": "[parameters('workspaces_DefaultWorkspace_f2549e9a_de48_459d_9e95_7e1e5bfcfaa0_EUS_externalid')]"
+                        }
+                    }
+                },
+                "nodeResourceGroup": "[concat('MC_armamitay_RG_', parameters('managedClusters_armamitayakscluster_name'), '_eastus')]",
+                "enableRBAC": true,
+                "networkProfile": {
+                    "networkPlugin": "kubenet",
+                    "loadBalancerSku": "Standard",
+                    "loadBalancerProfile": {
+                        "managedOutboundIPs": {
+                            "count": 1
+                        },
+                        "effectiveOutboundIPs": [
+                            {
+                                "id": "[parameters('publicIPAddresses_9e276aa8_d391_4f6d_b8fa_a8fcf4ab0b74_externalid')]"
+                            }
+                        ],
+                        "backendPoolType": "nodeIPConfiguration"
+                    },
+                    "podCidr": "10.244.0.0/16",
+                    "serviceCidr": "10.0.0.0/16",
+                    "dnsServiceIP": "10.0.0.10",
+                    "dockerBridgeCidr": "172.17.0.1/16",
+                    "outboundType": "loadBalancer",
+                    "podCidrs": [
+                        "10.244.0.0/16"
+                    ],
+                    "serviceCidrs": [
+                        "10.0.0.0/16"
+                    ],
+                    "ipFamilies": [
+                        "IPv4"
+                    ]
+                },
+                "identityProfile": {
+                    "kubeletidentity": {
+                        "resourceId": "[parameters('userAssignedIdentities_armamitayakscluster_agentpool_externalid')]",
+                        "clientId": "b3753b5f-2691-4c54-b226-4f9dcc168e99",
+                        "objectId": "05f71c83-6912-4ef7-88de-448e61d7f89c"
+                    }
+                },
+                "autoScalerProfile": {
+                    "balance-similar-node-groups": "false",
+                    "expander": "random",
+                    "max-empty-bulk-delete": "10",
+                    "max-graceful-termination-sec": "600",
+                    "max-node-provision-time": "15m",
+                    "max-total-unready-percentage": "45",
+                    "new-pod-scale-up-delay": "0s",
+                    "ok-total-unready-count": "3",
+                    "scale-down-delay-after-add": "10m",
+                    "scale-down-delay-after-delete": "10s",
+                    "scale-down-delay-after-failure": "3m",
+                    "scale-down-unneeded-time": "10m",
+                    "scale-down-unready-time": "20m",
+                    "scale-down-utilization-threshold": "0.5",
+                    "scan-interval": "10s",
+                    "skip-nodes-with-local-storage": "false",
+                    "skip-nodes-with-system-pods": "true"
+                },
+                "autoUpgradeProfile": {
+                    "upgradeChannel": "patch"
+                },
+                "disableLocalAccounts": false,
+                "securityProfile": {},
+                "storageProfile": {
+                    "diskCSIDriver": {
+                        "enabled": true,
+                        "version": "v1"
+                    },
+                    "fileCSIDriver": {
+                        "enabled": true
+                    },
+                    "snapshotController": {
+                        "enabled": true
+                    }
+                },
+                "oidcIssuerProfile": {
+                    "enabled": false
+                },
+                "guardrailsProfile": {
+                    "level": "Off",
+                    "version": "v0.0.1"
+                },
+                "workloadAutoScalerProfile": {}
+            }
+        },
+        {
+            "type": "Microsoft.ContainerService/managedClusters/agentPools",
+            "apiVersion": "2023-01-02-preview",
+            "name": "[concat(parameters('managedClusters_armamitayakscluster_name'), '/agentpool')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ContainerService/managedClusters', parameters('managedClusters_armamitayakscluster_name'))]"
+            ],
+            "properties": {
+                "count": 1,
+                "vmSize": "Standard_DS2_v2",
+                "osDiskSizeGB": 128,
+                "osDiskType": "Managed",
+                "kubeletDiskType": "OS",
+                "maxPods": 110,
+                "type": "VirtualMachineScaleSets",
+                "availabilityZones": [
+                    "1",
+                    "2",
+                    "3"
+                ],
+                "maxCount": 2,
+                "minCount": 1,
+                "enableAutoScaling": true,
+                "powerState": {
+                    "code": "Running"
+                },
+                "orchestratorVersion": "1.24.9",
+                "enableNodePublicIP": false,
+                "mode": "System",
+                "osType": "Linux",
+                "osSKU": "Ubuntu",
+                "enableFIPS": false
+            }
+        }
+    ]
+}

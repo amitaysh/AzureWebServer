@@ -1,0 +1,18 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "managedClusters_armamitayakscluster_name": {
+            "value": null
+        },
+        "workspaces_DefaultWorkspace_f2549e9a_de48_459d_9e95_7e1e5bfcfaa0_EUS_externalid": {
+            "value": null
+        },
+        "publicIPAddresses_9e276aa8_d391_4f6d_b8fa_a8fcf4ab0b74_externalid": {
+            "value": null
+        },
+        "userAssignedIdentities_armamitayakscluster_agentpool_externalid": {
+            "value": null
+        }
+    }
+}

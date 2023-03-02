@@ -1,0 +1,39 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "registries_armamitayRegistry_name": {
+            "value": null
+        },
+        "actionGroups_RecommendedAlertRules_AG_1_name": {
+            "value": null
+        },
+        "managedClusters_armamitayakscluster_name": {
+            "value": null
+        },
+        "metricAlerts_CPU_Usage_Percentage___armamitay_k8s_name": {
+            "value": null
+        },
+        "metricAlerts_CPU_Usage_Percentage___armamitayakscluster_name": {
+            "value": null
+        },
+        "metricAlerts_Memory_Working_Set_Percentage___armamitay_k8s_name": {
+            "value": null
+        },
+        "metricAlerts_Memory_Working_Set_Percentage___armamitayakscluster_name": {
+            "value": null
+        },
+        "workspaces_DefaultWorkspace_f2549e9a_de48_459d_9e95_7e1e5bfcfaa0_EUS_externalid": {
+            "value": null
+        },
+        "publicIPAddresses_9e276aa8_d391_4f6d_b8fa_a8fcf4ab0b74_externalid": {
+            "value": null
+        },
+        "userAssignedIdentities_armamitayakscluster_agentpool_externalid": {
+            "value": null
+        },
+        "managedClusters_armamitay_k8s_externalid": {
+            "value": null
+        }
+    }
+}
